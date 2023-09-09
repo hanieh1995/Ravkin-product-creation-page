@@ -1,0 +1,53 @@
+.producer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px 30px;
+}
+
+.btns-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.btns-container i {
+    color: rgb(26, 142, 209);
+}
+
+.btns-container button {
+    color: rgb(26, 142, 209);
+    border: 1px solid rgb(26, 142, 209);
+    border-radius: 5px;
+    padding: 2px 9px;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.info-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+
+.info-container img {
+    width: 40px;
+    border-radius: 50%;
+}
+
+.info-container .details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.info-container .details div:first-child {
+    font-size: 15px;
+}
+
+.info-container .details div:last-child {
+    font-size: 12px;
+    color: rgb(87, 87, 86);
+}

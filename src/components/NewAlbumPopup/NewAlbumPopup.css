@@ -1,0 +1,132 @@
+.popup-main {
+    position: absolute;
+    top: 0;
+    background-color: #fff;
+    width: 100%;
+    height: 100vh;
+    padding: 30px 70px;
+}
+
+.newalbum-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.newalbum-header img {
+    width: 30px;
+    cursor: pointer;
+}
+
+.next-btn {
+    color: rgb(150, 149, 147);
+    cursor: pointer;
+}
+
+.next-btn.active{
+    color: rgb(76, 150, 235);
+}
+
+.newalbum-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.newalbum-content .img-container {
+    width: 100%;
+    max-width: 450px;
+    height: 450px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgb(196, 194, 192);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 8%;
+    position: relative;
+}
+
+.newalbum-content .img-container .choose-size-text {
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+}
+
+.newalbum-content .img-size-container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    right: 5%;
+    gap: 10px;
+}
+
+.newalbum-content .img-size-container div {
+    width: 60px;
+    height: 30px;
+    box-shadow: 0 0 2px rgb(196, 194, 192);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.newalbum-content .img-size-container .add-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+}
+
+.newalbum-content .img-size-container .img-sizes {
+    background-color: rgb(76, 150, 235);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 13px;
+}
+
+.newalbum-content .img-container .add-img-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+    font-size: 15px;
+}
+
+.newalbum-content .img-container .close-btn{
+    position: absolute;
+    top:10px;
+    right: 10px;
+    width: 10px;
+}
+
+.newalbum-content .img-container .add-img-container label {
+    color: #fff;
+    background-color: rgb(76, 150, 235);
+    border-radius: 5px;
+    padding: 3px 9px;
+}
+
+.newalbum-content .uploaded-img{
+    max-width: 100%;
+    max-height: 100%;
+    
+}
+
+.newalbum-content .img-size-container .img-sizes.selected{
+    border: 1px solid  rgb(76, 150, 235);
+    border-radius: 5px;
+    color: black;
+    background-color: #fff;
+}
+
+.newalbum-content .img-size-container .img-sizes.green-border{
+    border: 2px solid rgb(27, 155, 55);
+}
+
+.newalbum-content .img-size-container .add-img.active{
+    border: 1px solid rgb(76, 150, 235);
+}
+
+

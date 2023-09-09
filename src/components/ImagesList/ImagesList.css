@@ -1,0 +1,33 @@
+.uploaded-images-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+    gap: 5px;
+    width: 100%;
+    max-width: 450px;
+    overflow-x: auto;
+}
+
+.uploaded-images-container .image-container {
+    border: 1px dotted rgb(148, 146, 146);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    position: relative;
+}
+
+.uploaded-images-container .image-container .close-btn {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 6px;
+    cursor: pointer;
+}
+
+.uploaded-images-container .image-container .choosen-img {
+    max-width: 100%;
+    max-width: 60px;
+    height: 80px;
+}

@@ -1,0 +1,114 @@
+.info-newalbum-container {
+    position: absolute;
+    top: 0;
+    background-color: #fff;
+    width: 100%;
+    height: 100vh;
+    padding: 30px 70px;
+}
+
+.info-newalbum-container .info-newalbum-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.info-newalbum-container .info-newalbum-header img {
+    width: 30px;
+    cursor: pointer;
+}
+
+.info-newalbum-container .info-newalbum-header .send-info {
+    color: rgb(150, 149, 147);
+    cursor: pointer;
+}
+
+.info-newalbum-container .info-newalbum-content {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.info-newalbum-container .info-newalbum-content .content{
+    width: 100%;
+    max-width: 450px;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 15px;
+}
+
+.info-newalbum-container .info-newalbum-content .img-container {
+    width: 100%;
+    max-width: 450px;
+    height: 450px;
+    min-width: 200px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgb(196, 194, 192);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ 
+}
+
+.info-newalbum-container .info-newalbum-content .info-container{
+    display: flex;
+    flex-direction: column;
+    direction: rtl;
+    border: 2px dotted rgb(212, 206, 206);
+    align-items: flex-start;
+    padding: 10px 10px;
+    font-size: 12px;
+    gap: 15px;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 200px;
+    margin-top: 10px;
+}
+
+.info-container .sale-text{
+    margin-bottom: 5px;
+}
+
+.info-container .sale-options{
+    border-bottom: 2px dotted rgb(212, 206, 206);
+    padding-bottom: 5px;
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+.info-container .sale-options input{
+    margin: 0 9px;
+}
+
+.info-container .set-price{
+    display: flex;
+    flex-direction: column;
+    border-bottom: 2px dotted rgb(212, 206, 206);
+    width: 100%;
+    padding-bottom: 7px;
+}
+
+.info-container .set-price input{
+    outline: none;
+    border: 1px solid  rgb(212, 206, 206);
+    border-radius: 2px;
+}
+
+.info-container .btn-container{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.info-container .btn-container button{
+    color: rgb(26, 142, 209);
+    border: 1px solid rgb(26, 142, 209);
+    border-radius: 5px;
+    padding: 2px 9px;
+    cursor: pointer;
+    background-color: #fff;
+}
