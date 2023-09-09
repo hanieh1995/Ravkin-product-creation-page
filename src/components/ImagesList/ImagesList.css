@@ -18,6 +18,10 @@
     position: relative;
 }
 
+.uploaded-images-container .image-container.active{
+    border: 2px solid rgb(53, 136, 81);
+}
+
 .uploaded-images-container .image-container .close-btn {
     position: absolute;
     top: 4px;
