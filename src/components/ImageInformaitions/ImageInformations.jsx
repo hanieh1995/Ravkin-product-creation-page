@@ -3,9 +3,10 @@ import "./ImageInformations.css";
 import backicon from "../../assets/img/back_icon.png";
 import ImagesList from "../ImagesList/ImagesList";
 import { useState } from "react";
+import IMAGESIZES from "../../assets/CONSTANTS";
 
 export default function ImageInformaitions({ setopenImageInfoPage, allUploadedImages }) {
-    const [selectedImage, setSelectedImage] = useState({ url: allUploadedImages[0].url, index: 0 });
+    const [selectedImage, setSelectedImage] = useState({ url: allUploadedImages[0].url, index: 0});
     const [finalData, setFinalData] = useState([...allUploadedImages]);
 
     function setInfoOption(event) {
@@ -32,7 +33,7 @@ export default function ImageInformaitions({ setopenImageInfoPage, allUploadedIm
             <div className="info-newalbum-content">
                 <div className="content">
                     <div className="img-container">
-                        <img src={selectedImage.url} alt="image" />
+                        <img src={selectedImage.url} style={{ aspectRatio: IMAGESIZES[selectedImage.index] }} alt="image" />
                     </div>
                     <ImagesList allUploadedImages={finalData} setSelectedImage={setSelectedImage} />
                 </div>

@@ -92,6 +92,10 @@
     margin-bottom: 8px;
 }
 
+ input::-webkit-inner-spin-button{
+    -webkit-appearance: none;
+}
+
 .info-container .sale-options input{
     margin: 0 9px;
 }

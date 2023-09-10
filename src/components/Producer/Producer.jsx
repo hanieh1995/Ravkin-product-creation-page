@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import "./Producer.css";
 import user from "../../assets/img/user-img.png";
 
