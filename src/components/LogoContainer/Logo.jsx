@@ -4,9 +4,11 @@ import "./Logo.css"
 import logo from "../../assets/logo/myLogo.jpg"
 import { useRef, useState } from "react";
 import setPosition from "../../utilz/setLogoPosition";
-import { magnifant, shrinker } from "../../utilz/resizeLogo";
+import { magnifier, shrinker } from "../../utilz/resizeLogo";
 export default function Logo({ DragHandler, sizeIndex, allLogoPosInfo, setAllLogoPosInfo }) {
 
+    const [oldPos, setOldPos] = useState({ x: 0, y: 0 })
+    const [direction, setDirection] = useState(null);
     const logoRef = useRef(null);
     const [logoStyle, setLogoStyle] = useState({
         left: allLogoPosInfo[sizeIndex].left,
@@ -15,10 +17,59 @@ export default function Logo({ DragHandler, sizeIndex, allLogoPosInfo, setAllLog
     });
 
     function handleDrag(e) {
-        // magnifant(width);
+        const newDirection = {};
         let width = logoRef.current.parentElement.parentElement.style.width;
-        logoRef.current.parentElement.parentElement.style.width = shrinker(width);
+        if (oldPos.x < e.pageX) {
+            newDirection.x = "right";
+        } else {
+            newDirection.x = "left";
+        }
 
+        if (oldPos.y < e.pageY) {
+            newDirection.y = "down";
+        } else {
+            newDirection.y = "up";
+        }
+        setOldPos({ x: e.pageX, y: e.pageY });
+        setDirection(newDirection);
+
+        switch (e.target.classList[1]) {
+            case "bottom-left":
+                if (newDirection.x == "left" && newDirection.y == "down") {
+                    logoRef.current.parentElement.parentElement.style.width = magnifier(width)
+                } else if (newDirection.x == "right" && newDirection.y == "up") {
+                    logoRef.current.parentElement.parentElement.style.width = shrinker(width);
+                }
+                break;
+            case "bottom-right":
+                if (newDirection.x == "right" && newDirection.y == "down") {
+                    logoRef.current.parentElement.parentElement.style.width = magnifier(width)
+                } else if (newDirection.x == "left" && newDirection.y == "up") {
+                    logoRef.current.parentElement.parentElement.style.width = shrinker(width);
+                }
+                break;
+            case "top-right":
+                if (newDirection.x == "right" && newDirection.y == "up") {
+                    logoRef.current.parentElement.parentElement.style.width = magnifier(width)
+                } else if (newDirection.x == "left" && newDirection.y == "down") {
+                    logoRef.current.parentElement.parentElement.style.width = shrinker(width);
+                }
+                break;
+            case "top-left":
+                if (newDirection.x == "left" && newDirection.y == "up") {
+                    logoRef.current.parentElement.parentElement.style.width = magnifier(width)
+                } else if (newDirection.x == "right" && newDirection.y == "down") {
+                    logoRef.current.parentElement.parentElement.style.width = shrinker(width);
+                }
+                break;
+            default:
+                break;
+        }
+        console.log(logoRef.current.parentElement.parentElement.style.width)
+        const newArray = [...allLogoPosInfo];
+
+        newArray[sizeIndex].width = logoRef.current.parentElement.parentElement.style.width;
+        setAllLogoPosInfo(newArray);
     }
 
 
@@ -36,7 +87,7 @@ export default function Logo({ DragHandler, sizeIndex, allLogoPosInfo, setAllLog
 
     return (
         <>
-            <Draggable bounds="parent" handle=".handle" onDrag={handleDrag}>
+            <Draggable bounds="parent" handle=".handle">
 
 
                 <div draggable={false} className="logo-container" style={logoStyle}>
