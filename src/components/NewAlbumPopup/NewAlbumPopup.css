@@ -4,7 +4,7 @@
     background-color: #fff;
     width: 100%;
     height: 100vh;
-    padding: 30px 70px;
+    padding: 30px 2vw;
 }
 
 .newalbum-header {
@@ -12,6 +12,7 @@
     align-items: center;
     justify-content: space-between;
     margin-bottom: 20px;
+    padding: 0 5vw;
 }
 
 .newalbum-header img {
@@ -24,7 +25,7 @@
     cursor: pointer;
 }
 
-.next-btn.active{
+.next-btn.active {
     color: rgb(76, 150, 235);
 }
 
@@ -36,8 +37,8 @@
 
 .newalbum-content .img-container {
     width: 100%;
-    max-width: 450px;
-    height: 450px;
+    max-width: 400px;
+    height: 400px;
     border-radius: 5px;
     box-shadow: 0 0 5px rgb(196, 194, 192);
     display: flex;
@@ -46,6 +47,24 @@
     margin: 0 8%;
     position: relative;
 }
+
+.newalbum-content .img-container .image-logo-container {
+    height: 400px;
+    max-width: 400px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    box-shadow: 0 0 2px 3px rgb(196, 194, 192);
+
+}
+
+.newalbum-content .img-container .image-logo-container.virtualView {
+    height: auto;
+}
+
+
 
 .newalbum-content .img-container .choose-size-text {
     font-weight: bold;
@@ -94,11 +113,17 @@
     font-size: 15px;
 }
 
-.newalbum-content .img-container .close-btn{
+
+
+.newalbum-content .img-container .close-btn {
     position: absolute;
-    top:10px;
+    top: 10px;
     right: 10px;
-    width: 10px;
+    z-index: 1000;
+    padding: 2px;
+    border-radius: 50%;
+    background-color: white;
+    width: 15px;
 }
 
 .newalbum-content .img-container .add-img-container label {
@@ -109,24 +134,65 @@
     cursor: pointer;
 }
 
-.newalbum-content .uploaded-img{
+.newalbum-content .uploaded-img {
     max-width: 100%;
-    max-height: 100%;
 }
 
-.newalbum-content .img-size-container .img-sizes.selected{
-    border: 1px solid  rgb(76, 150, 235);
+.newalbum-content .img-size-container .img-sizes.selected {
+    border: 1px solid rgb(76, 150, 235);
     border-radius: 5px;
     color: black;
     background-color: #fff;
 }
 
-.newalbum-content .img-size-container .img-sizes.green-border{
+.newalbum-content .img-size-container .img-sizes.green-border {
     border: 2px solid rgb(27, 155, 55);
 }
 
-.newalbum-content .img-size-container .add-img.active{
+.newalbum-content .img-size-container .add-img.active {
     border: 1px solid rgb(76, 150, 235);
 }
 
 
+
+@media screen and (max-width:600px) {
+
+    .newalbum-content {
+        flex-direction: column;
+    }
+
+    .newalbum-content .img-container,
+    .newalbum-content .img-container .image-logo-container {
+        max-width: 300px;
+        height: 300px;
+    }
+
+
+    .newalbum-content .img-size-container {
+        display: flex;
+        flex-direction: row;
+        position: static;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .newalbum-content .img-size-container div {
+        width: 50px;
+        height: auto;
+    }
+
+}
+
+@media screen and (max-width:350px) {
+
+    .newalbum-content .img-container,
+    .newalbum-content .img-container .image-logo-container {
+        max-width: 200px;
+        height: 200px;
+    }
+
+
+
+}

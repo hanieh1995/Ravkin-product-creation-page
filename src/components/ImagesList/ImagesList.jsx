@@ -11,9 +11,8 @@ export default function ImagesList({ allUploadedImages, setAllUploadedImages, is
     }
 
     function showSelectedImage(i){
-        if(!isShowDeleteBtn) setSelectedImage({url:allUploadedImages[i].url, index:i});
+        if(!isShowDeleteBtn) setSelectedImage({url:allUploadedImages[i].url, index:i, aspect:allUploadedImages[i].aspect});
     }
-
     return (
         <>
             <div className="uploaded-images-container">

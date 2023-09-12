@@ -4,15 +4,20 @@ import backicon from "../../assets/img/back_icon.png";
 import IMAGESIZES from "../../assets/CONSTANTS";
 import ImagesList from "../ImagesList/ImagesList";
 import close from "../../assets/img/close.png";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import ImageInformations from "../ImageInformaitions/ImageInformations";
+import Logo from "../LogoContainer/Logo";
 
 export default function NewAlbumPopup({ setOpenNewAlbumPopup }) {
     const [uploadedImage, setUploadedImage] = useState(null);
     const [selectedAspect, setSelectedAspect] = useState("");
     const [allSizeImage, setAllSizeImage] = useState(["", "", "", ""]);
+    const [allLogoPosInfo, setAllLogoPosInfo] = useState([{ top: "75%", left: "75%", width: "12%" }, { top: "75%", left: "75%", width: "12%" }, { top: "75%", left: "75%", width: "12%" }, { top: "75%", left: "75%", width: "12%" }])
     const [allUploadedImages, setAllUploadedImages] = useState([]);
     const [openImageInfoPage, setopenImageInfoPage] = useState(false);
+    const imageRef = useRef(null);
+
+
 
     function onImageUpload(event) {
         if (event.target.files && event.target.files[0]) {
@@ -36,6 +41,7 @@ export default function NewAlbumPopup({ setOpenNewAlbumPopup }) {
                     setAllSizeImage(newArray);
                     break;
             }
+
         }
     }
 
@@ -64,9 +70,10 @@ export default function NewAlbumPopup({ setOpenNewAlbumPopup }) {
         let index = allSizeImage.findIndex(img => img != "")
         if (index != -1) {
             const newArray = [...allUploadedImages];
-            newArray.push({ url: allSizeImage[index], aspect: IMAGESIZES[index], saleOption:"", price:"", performer:"" });
+            newArray.push({ url: allSizeImage[index], aspect: IMAGESIZES[index], saleOption: "", price: "", performer: "", logo: {} });
             setAllUploadedImages(newArray);
             setAllSizeImage(["", "", "", ""]);
+            setAllLogoPosInfo([{ top: "75%", left: "75%", width: "12%" }, { top: "75%", left: "75%", width: "12%" }, { top: "75%", left: "75%", width: "12%" }, { top: "75%", left: "75%", width: "12%" }]);
             setUploadedImage(null);
             setSelectedAspect("");
         }
@@ -80,6 +87,10 @@ export default function NewAlbumPopup({ setOpenNewAlbumPopup }) {
         setUploadedImage(null);
     }
 
+    function DragHandler(e) {
+        console.log("dragging")
+    }
+
     return (
 
         <>
@@ -90,11 +101,21 @@ export default function NewAlbumPopup({ setOpenNewAlbumPopup }) {
                     <div className="title">ایجاد آلبوم جدید</div>
                     <div className={`next-btn ${allUploadedImages.length && "active"}`} onClick={() => { if (allUploadedImages.length) setopenImageInfoPage(true) }}>Next</div>
                 </div>
-                {/* {`next-btn ${allSizeImage.findIndex(img => img != "") != -1 && "active"}`} */}
                 <div className="newalbum-content">
                     <div className="img-container">
+
                         {uploadedImage && <img src={close} alt="close" className="close-btn" onClick={handleDelete} />}
-                        {selectedAspect ? (uploadedImage ? <img src={uploadedImage} alt="" className="uploaded-img" style={{ aspectRatio: selectedAspect }} /> :
+                        {selectedAspect ? (uploadedImage ? <div className={`image-logo-container  ${selectedAspect == IMAGESIZES[2] && "virtualView"}`} style={{ aspectRatio: selectedAspect }}><img ref={imageRef} draggable={false} src={uploadedImage} alt="" className="uploaded-img" />
+                            {IMAGESIZES.findIndex(size => size == selectedAspect) == 0 && <Logo DragHandler={DragHandler} setAllLogoPosInfo={setAllLogoPosInfo} allLogoPosInfo={allLogoPosInfo} sizeIndex={0} />
+                            }
+                            {IMAGESIZES.findIndex(size => size == selectedAspect) == 1 && <Logo DragHandler={DragHandler} setAllLogoPosInfo={setAllLogoPosInfo} allLogoPosInfo={allLogoPosInfo} sizeIndex={1} />
+                            }
+                            {IMAGESIZES.findIndex(size => size == selectedAspect) == 2 && <Logo DragHandler={DragHandler} setAllLogoPosInfo={setAllLogoPosInfo} allLogoPosInfo={allLogoPosInfo} sizeIndex={2} />
+                            }
+                            {IMAGESIZES.findIndex(size => size == selectedAspect) == 3 && <Logo DragHandler={DragHandler} setAllLogoPosInfo={setAllLogoPosInfo} allLogoPosInfo={allLogoPosInfo} sizeIndex={3} />
+                            }
+                        </div>
+                            :
                             <div className="add-img-container">
                                 <i className="fa fa-image" style={{ color: "rgb(76, 150, 235)", fontSize: "30px" }}></i>
                                 <p>عکس یا ویدیو خود را بکشید اینجا</p>
@@ -116,7 +137,7 @@ export default function NewAlbumPopup({ setOpenNewAlbumPopup }) {
                         <div className={`img-sizes ${selectedAspect == IMAGESIZES[3] && "selected"}  ${allSizeImage[3] && "green-border"}`} onClick={() => handleImageSize(IMAGESIZES[3])}>4:5</div>
                     </div>
                 </div>
-                <ImagesList allUploadedImages={allUploadedImages} setAllUploadedImages={setAllUploadedImages}  isShowDeleteBtn={true}/>
+                <ImagesList allUploadedImages={allUploadedImages} setAllUploadedImages={setAllUploadedImages} isShowDeleteBtn={true} />
             </div>
 
         </>
