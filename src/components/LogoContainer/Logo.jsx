@@ -4,6 +4,7 @@ import "./Logo.css"
 import logo from "../../assets/logo/myLogo.jpg"
 import { useRef, useState } from "react";
 import setPosition from "../../utilz/setLogoPosition";
+import { magnifant, shrinker } from "../../utilz/resizeLogo";
 export default function Logo({ DragHandler, sizeIndex, allLogoPosInfo, setAllLogoPosInfo }) {
 
     const logoRef = useRef(null);
@@ -14,7 +15,10 @@ export default function Logo({ DragHandler, sizeIndex, allLogoPosInfo, setAllLog
     });
 
     function handleDrag(e) {
-        // if(imageRef) console.log(imageRef);
+        // magnifant(width);
+        let width = logoRef.current.parentElement.parentElement.style.width;
+        logoRef.current.parentElement.parentElement.style.width = shrinker(width);
+
     }
 
 
@@ -52,7 +56,7 @@ export default function Logo({ DragHandler, sizeIndex, allLogoPosInfo, setAllLog
                     </div>
 
                     <div draggable={false} className="logo-image-row-container handle">
-                        <img draggable={false} ref={logoRef} className="logo-image handle" onTouchEnd={setLogoPosition} src={logo} alt="logo" />
+                        <img draggable={false} ref={logoRef} className="logo-image handle" onMouseUp={setLogoPosition} src={logo} alt="logo" />
                     </div>
 
 
