@@ -27,7 +27,6 @@ export default function Logo({ sizeIndex, allLogoPosInfo, setAllLogoPosInfo, acc
                 width: allLogoPosInfo.width,
             })
         }
-        console.log(acceptedImageIndex);
 
     }, [acceptedImageIndex])
 
@@ -94,6 +93,8 @@ export default function Logo({ sizeIndex, allLogoPosInfo, setAllLogoPosInfo, acc
         newArray[sizeIndex].top = final.y + "%";
         setAllLogoPosInfo(newArray);
     }
+
+
     return (
         <>
             {isDrag ? <Draggable bounds="parent" handle=".handle">

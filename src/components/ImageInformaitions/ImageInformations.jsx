@@ -6,12 +6,11 @@ import { useRef, useState } from "react";
 import IMAGESIZES from "../../assets/CONSTANTS";
 import Logo from "../LogoContainer/Logo";
 
-export default function ImageInformaitions({ setOpenImageInfoPage, allUploadedImages }) {
-    const [selectedImage, setSelectedImage] = useState({ url: allUploadedImages[0].url, index: 0, aspect: allUploadedImages[0].aspect });
+export default function ImageInformaitions({ setIsEditImagePage, setOpenImageInfoPage, allUploadedImages }) {
+    const [selectedImage, setSelectedImage] = useState({ url: allUploadedImages[0].allImages[0].url, index: 0, aspect: IMAGESIZES[allUploadedImages[0].allImages[0].aspectIndex] });
     const [finalData, setFinalData] = useState([...allUploadedImages]);
     const [uploadedImageVirual, setUploadedImageVirual] = useState(true);
     const imageRef = useRef(null);
-
     function setInfoOption(event) {
         const newArray = [...finalData];
         newArray[selectedImage.index].saleOption = event.target.value;
@@ -29,13 +28,13 @@ export default function ImageInformaitions({ setOpenImageInfoPage, allUploadedIm
         aspect < selectedImage.aspect ? setUploadedImageVirual(true) : setUploadedImageVirual(false);
 
     }
-
-    console.log(allUploadedImages);
-
     return (
         <div className="info-newalbum-container">
             <div className="info-newalbum-header">
-                <img src={backicon} alt="backicon" onClick={() => setOpenImageInfoPage(false)} />
+                <img src={backicon} alt="backicon" onClick={() => {
+                    setIsEditImagePage(true);
+                    setOpenImageInfoPage(false)
+                }} />
                 <div className="title">ایجاد آلبوم جدید</div>
                 <div className={`send-info ${finalData.findIndex(image =>
                     !image.saleOption || !image.price
@@ -45,10 +44,10 @@ export default function ImageInformaitions({ setOpenImageInfoPage, allUploadedIm
                 <div className="content">
                     <div className="img-container">
                         <div className={`image-logo-container  ${selectedImage.aspect == IMAGESIZES[2] && "virtualView"}`} style={{ aspectRatio: selectedImage.aspect }}><img onLoad={computeImageAspect} ref={imageRef} className={`${uploadedImageVirual ? "uploaded-virtual-img" : "uploaded-horizenal-img"}`} src={selectedImage.url} alt="image" />
-                            < Logo isDrag={false} allLogoPosInfo={allUploadedImages[selectedImage.index].logo} acceptedImageIndex={selectedImage.index} />
+                            <Logo isDrag={false} allLogoPosInfo={allUploadedImages[selectedImage.index].allImages[0].logo} acceptedImageIndex={selectedImage.index} />
                         </div>
                     </div>
-                    <ImagesList allUploadedImages={finalData} setSelectedImage={setSelectedImage} />
+                    <ImagesList editImagePage={false} allUploadedImages={finalData} setSelectedImage={setSelectedImage} />
                 </div>
                 <div className="info-container">
                     <div className="sale-text">نحوه فروش :</div>

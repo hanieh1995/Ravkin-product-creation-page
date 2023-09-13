@@ -16,6 +16,8 @@ export default function NewAlbumPopup({ setOpenNewAlbumPopup }) {
     const [allUploadedImages, setAllUploadedImages] = useState([]);
     const [openImageInfoPage, setOpenImageInfoPage] = useState(false);
     const [uploadedImageVirual, setUploadedImageVirual] = useState(true);
+    const [imageListIndex, setImageListIndex] = useState(null);
+    const [isEditImagePage, setIsEditImagePage] = useState(true)
     const imageRef = useRef(null);
 
     function computeImageAspect() {
@@ -72,16 +74,25 @@ export default function NewAlbumPopup({ setOpenNewAlbumPopup }) {
     }
 
     function addImage() {
-        let index = allSizeImage.findIndex(img => img != "")
-        if (index != -1) {
-            const newArray = [...allUploadedImages];
-            newArray.push({ url: allSizeImage[index], aspect: IMAGESIZES[index], saleOption: "", price: "", performer: "", logo: allLogoPosInfo[index] });
-            setAllUploadedImages(newArray);
+        if (uploadedImage) {
+            const newArray = [];
+            allSizeImage.map((image, i) => {
+                if (image) newArray.push({ url: allSizeImage[i], aspectIndex: i, logo: allLogoPosInfo[i] })
+            })
+            const mainArray = [...allUploadedImages];
+            if (imageListIndex === null) {
+                mainArray.push({ allImages: newArray, saleOption: "", price: "", performer: "" });
+            } else {
+                mainArray[imageListIndex].allImages = newArray;
+            }
+            setImageListIndex(null);
+            setAllUploadedImages(mainArray);
             setAllSizeImage(["", "", "", ""]);
             setAllLogoPosInfo([{ top: "75%", left: "75%", width: "12%" }, { top: "75%", left: "75%", width: "12%" }, { top: "75%", left: "75%", width: "12%" }, { top: "75%", left: "75%", width: "12%" }]);
             setUploadedImage(null);
             setSelectedAspect("");
         }
+
     }
 
     function handleDelete() {
@@ -93,17 +104,32 @@ export default function NewAlbumPopup({ setOpenNewAlbumPopup }) {
         setAllLogoPosInfo(newPosArray);
         setAllSizeImage(newArray);
         setUploadedImage(null);
+
+        // if (imageListIndex !== null) {
+        //     const mainArray = [...allUploadedImages];
+        //     mainArray[imageListIndex].splice(index, 1);
+        //     console.log(mainArray[imageListIndex]);
+        //     setAllUploadedImages(mainArray);
+        //     setImageListIndex(null);
+        // }
+
+
     }
 
     return (
 
         <>
-            {openImageInfoPage && <ImageInformations setAllLogoPosInfo={setAllLogoPosInfo} allLogoPosInfo={allLogoPosInfo} allUploadedImages={allUploadedImages} setOpenImageInfoPage={setOpenImageInfoPage} />}
+            {openImageInfoPage && <ImageInformations setIsEditImagePage={setIsEditImagePage} setAllLogoPosInfo={setAllLogoPosInfo} allLogoPosInfo={allLogoPosInfo} allUploadedImages={allUploadedImages} setOpenImageInfoPage={setOpenImageInfoPage} />}
             <div className="popup-main">
                 <div className="newalbum-header">
                     <img src={backicon} alt="backicon" onClick={() => setOpenNewAlbumPopup(false)} />
                     <div className="title">ایجاد آلبوم جدید</div>
-                    <div className={`next-btn ${allUploadedImages.length && "active"}`} onClick={() => { if (allUploadedImages.length) setOpenImageInfoPage(true) }}>Next</div>
+                    <div className={`next-btn ${allUploadedImages.length && "active"}`} onClick={() => {
+                        if (allUploadedImages.length) {
+                            setOpenImageInfoPage(true);
+                            setIsEditImagePage(false);
+                        }
+                    }}>Next</div>
                 </div>
                 <div className="newalbum-content">
                     <div className="img-container">
@@ -112,13 +138,13 @@ export default function NewAlbumPopup({ setOpenNewAlbumPopup }) {
                         {selectedAspect ? (uploadedImage ? <div className={`image-logo-container  ${selectedAspect == IMAGESIZES[2] && "virtualView"}`} style={{ aspectRatio: selectedAspect }}><img onLoad={computeImageAspect} ref={imageRef} draggable={false} src={uploadedImage} alt=""
                             className={`${uploadedImageVirual ? "uploaded-virtual-img" : "uploaded-horizenal-img"}`}
                         />
-                            {IMAGESIZES.findIndex(size => size == selectedAspect) == 0 && <Logo isDrag={true} setAllLogoPosInfo={setAllLogoPosInfo} allLogoPosInfo={allLogoPosInfo} sizeIndex={0} />
+                            {IMAGESIZES.findIndex(size => size == selectedAspect) == 0 && isEditImagePage && <Logo isDrag={isEditImagePage} setAllLogoPosInfo={setAllLogoPosInfo} allLogoPosInfo={allLogoPosInfo} sizeIndex={0} />
                             }
-                            {IMAGESIZES.findIndex(size => size == selectedAspect) == 1 && <Logo isDrag={true} setAllLogoPosInfo={setAllLogoPosInfo} allLogoPosInfo={allLogoPosInfo} sizeIndex={1} />
+                            {IMAGESIZES.findIndex(size => size == selectedAspect) == 1 && isEditImagePage && <Logo isDrag={isEditImagePage} setAllLogoPosInfo={setAllLogoPosInfo} allLogoPosInfo={allLogoPosInfo} sizeIndex={1} />
                             }
-                            {IMAGESIZES.findIndex(size => size == selectedAspect) == 2 && <Logo isDrag={true} setAllLogoPosInfo={setAllLogoPosInfo} allLogoPosInfo={allLogoPosInfo} sizeIndex={2} />
+                            {IMAGESIZES.findIndex(size => size == selectedAspect) == 2 && isEditImagePage && <Logo isDrag={isEditImagePage} setAllLogoPosInfo={setAllLogoPosInfo} allLogoPosInfo={allLogoPosInfo} sizeIndex={2} />
                             }
-                            {IMAGESIZES.findIndex(size => size == selectedAspect) == 3 && <Logo isDrag={true} setAllLogoPosInfo={setAllLogoPosInfo} allLogoPosInfo={allLogoPosInfo} sizeIndex={3} />
+                            {IMAGESIZES.findIndex(size => size == selectedAspect) == 3 && isEditImagePage && <Logo isDrag={isEditImagePage} setAllLogoPosInfo={setAllLogoPosInfo} allLogoPosInfo={allLogoPosInfo} sizeIndex={3} />
                             }
                         </div>
                             :
@@ -143,7 +169,7 @@ export default function NewAlbumPopup({ setOpenNewAlbumPopup }) {
                         <div className={`img-sizes ${selectedAspect == IMAGESIZES[3] && "selected"}  ${allSizeImage[3] && "green-border"}`} onClick={() => handleImageSize(IMAGESIZES[3])}>4:5</div>
                     </div>
                 </div>
-                <ImagesList allUploadedImages={allUploadedImages} setAllUploadedImages={setAllUploadedImages} isShowDeleteBtn={true} />
+                <ImagesList editImagePage={true} setImageListIndex={setImageListIndex} setSelectedAspect={setSelectedAspect} setUploadedImage={setUploadedImage} allSizeImage={allSizeImage} setAllSizeImage={setAllSizeImage} setAllLogoPosInfo={setAllLogoPosInfo} allLogoPosInfo={allLogoPosInfo} allUploadedImages={allUploadedImages} setAllUploadedImages={setAllUploadedImages} isShowDeleteBtn={true} />
             </div>
 
         </>
