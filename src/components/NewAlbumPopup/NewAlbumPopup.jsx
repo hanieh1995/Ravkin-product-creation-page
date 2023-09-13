@@ -105,7 +105,8 @@ export default function NewAlbumPopup({ setOpenNewAlbumPopup }) {
             setAllUploadedImages(mainArray);
             console.log(mainArray)
             if (mainArray[imageListIndex].allImages.length == 0) {
-
+                mainArray.splice(imageListIndex, 1);
+                console.log(mainArray);
                 setImageListIndex(null);
             }
 
@@ -130,7 +131,7 @@ export default function NewAlbumPopup({ setOpenNewAlbumPopup }) {
                     <img src={backicon} alt="backicon" onClick={() => setOpenNewAlbumPopup(false)} />
                     <div className="title">ایجاد آلبوم جدید</div>
                     <div className={`next-btn ${allUploadedImages.length && "active"}`} onClick={() => {
-                        if (allUploadedImages.length) {
+                        if (allUploadedImages.length && allUploadedImages[0]) {
                             setOpenImageInfoPage(true);
                             setIsEditImagePage(false);
                         }
