@@ -83,6 +83,9 @@ export default function NewAlbumPopup({ setOpenNewAlbumPopup }) {
         let index = IMAGESIZES.findIndex(size => size == selectedAspect);
         const newArray = [...allSizeImage];
         newArray[index] = "";
+        const newPosArray = [...allLogoPosInfo];
+        newPosArray[index] = { top: "75%", left: "75%", width: "12%" };
+        setAllLogoPosInfo(newPosArray);
         setAllSizeImage(newArray);
         setUploadedImage(null);
     }

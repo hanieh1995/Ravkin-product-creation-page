@@ -65,15 +65,11 @@ export default function Logo({ DragHandler, sizeIndex, allLogoPosInfo, setAllLog
             default:
                 break;
         }
-        console.log(logoRef.current.parentElement.parentElement.style.width)
         const newArray = [...allLogoPosInfo];
 
         newArray[sizeIndex].width = logoRef.current.parentElement.parentElement.style.width;
         setAllLogoPosInfo(newArray);
     }
-
-
-
 
     function setLogoPosition(e) {
 
@@ -114,7 +110,7 @@ export default function Logo({ DragHandler, sizeIndex, allLogoPosInfo, setAllLog
 
                 </div>
 
-            </Draggable>
+            </Draggable >
         </>
     )
 }
