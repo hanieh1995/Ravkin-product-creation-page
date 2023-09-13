@@ -3,12 +3,24 @@ import "./ImagesList.css";
 import close from "../../assets/img/close.png";
 import IMAGESIZES from "../../assets/CONSTANTS";
 
-export default function ImagesList({ editImagePage, setImageListIndex, setSelectedAspect, setUploadedImage, allSizeImage, setAllSizeImage, setAllLogoPosInfo, allLogoPosInfo, allUploadedImages, setAllUploadedImages, isShowDeleteBtn, setSelectedImage }) {
+export default function ImagesList({ imageListIndex, editImagePage, setImageListIndex, setSelectedAspect, setUploadedImage, allSizeImage, setAllSizeImage, setAllLogoPosInfo, allLogoPosInfo, allUploadedImages, setAllUploadedImages, isShowDeleteBtn, setSelectedImage }) {
 
     function deleteImage(i) {
         const newArray = [...allUploadedImages];
         newArray.splice(i, 1);
         setAllUploadedImages(newArray);
+        if (imageListIndex > i) {
+            let newImageListIndex = imageListIndex - 1;
+            setImageListIndex(newImageListIndex);
+        } else if (imageListIndex == i) {
+            setUploadedImage(null)
+            const allSizes = ["", "", "", ""];
+            const allLogoPos = [...allLogoPosInfo];
+            setAllSizeImage(allSizes);
+            setAllLogoPosInfo(allLogoPos);
+            setSelectedAspect("");
+            setImageListIndex(null);
+        }
     }
 
     function showSelectedImage(i, aspectI) {

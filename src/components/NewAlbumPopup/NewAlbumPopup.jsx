@@ -75,6 +75,7 @@ export default function NewAlbumPopup({ setOpenNewAlbumPopup }) {
 
     function addImage() {
         if (uploadedImage) {
+            console.log(allUploadedImages)
             const newArray = [];
             allSizeImage.map((image, i) => {
                 if (image) newArray.push({ url: allSizeImage[i], aspectIndex: i, logo: allLogoPosInfo[i] })
@@ -97,6 +98,20 @@ export default function NewAlbumPopup({ setOpenNewAlbumPopup }) {
 
     function handleDelete() {
         let index = IMAGESIZES.findIndex(size => size == selectedAspect);
+
+        if (imageListIndex !== null) {
+            const mainArray = [...allUploadedImages];
+            mainArray[imageListIndex].allImages.splice(index, 1);
+            setAllUploadedImages(mainArray);
+            console.log(mainArray)
+            if (mainArray[imageListIndex].allImages.length == 0) {
+
+                setImageListIndex(null);
+            }
+
+        }
+
+
         const newArray = [...allSizeImage];
         newArray[index] = "";
         const newPosArray = [...allLogoPosInfo];
@@ -104,16 +119,6 @@ export default function NewAlbumPopup({ setOpenNewAlbumPopup }) {
         setAllLogoPosInfo(newPosArray);
         setAllSizeImage(newArray);
         setUploadedImage(null);
-
-        // if (imageListIndex !== null) {
-        //     const mainArray = [...allUploadedImages];
-        //     mainArray[imageListIndex].splice(index, 1);
-        //     console.log(mainArray[imageListIndex]);
-        //     setAllUploadedImages(mainArray);
-        //     setImageListIndex(null);
-        // }
-
-
     }
 
     return (
@@ -169,7 +174,7 @@ export default function NewAlbumPopup({ setOpenNewAlbumPopup }) {
                         <div className={`img-sizes ${selectedAspect == IMAGESIZES[3] && "selected"}  ${allSizeImage[3] && "green-border"}`} onClick={() => handleImageSize(IMAGESIZES[3])}>4:5</div>
                     </div>
                 </div>
-                <ImagesList editImagePage={true} setImageListIndex={setImageListIndex} setSelectedAspect={setSelectedAspect} setUploadedImage={setUploadedImage} allSizeImage={allSizeImage} setAllSizeImage={setAllSizeImage} setAllLogoPosInfo={setAllLogoPosInfo} allLogoPosInfo={allLogoPosInfo} allUploadedImages={allUploadedImages} setAllUploadedImages={setAllUploadedImages} isShowDeleteBtn={true} />
+                <ImagesList imageListIndex={imageListIndex} editImagePage={true} setImageListIndex={setImageListIndex} setSelectedAspect={setSelectedAspect} setUploadedImage={setUploadedImage} allSizeImage={allSizeImage} setAllSizeImage={setAllSizeImage} setAllLogoPosInfo={setAllLogoPosInfo} allLogoPosInfo={allLogoPosInfo} allUploadedImages={allUploadedImages} setAllUploadedImages={setAllUploadedImages} isShowDeleteBtn={true} />
             </div>
 
         </>
