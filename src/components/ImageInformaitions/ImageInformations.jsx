@@ -2,12 +2,15 @@
 import "./ImageInformations.css";
 import backicon from "../../assets/img/back_icon.png";
 import ImagesList from "../ImagesList/ImagesList";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import IMAGESIZES from "../../assets/CONSTANTS";
+import Logo from "../LogoContainer/Logo";
 
-export default function ImageInformaitions({ setopenImageInfoPage, allUploadedImages }) {
+export default function ImageInformaitions({ setOpenImageInfoPage, allUploadedImages }) {
     const [selectedImage, setSelectedImage] = useState({ url: allUploadedImages[0].url, index: 0, aspect: allUploadedImages[0].aspect });
     const [finalData, setFinalData] = useState([...allUploadedImages]);
+    const [uploadedImageVirual, setUploadedImageVirual] = useState(true);
+    const imageRef = useRef(null);
 
     function setInfoOption(event) {
         const newArray = [...finalData];
@@ -21,10 +24,18 @@ export default function ImageInformaitions({ setopenImageInfoPage, allUploadedIm
         setFinalData(newArray);
     }
 
+    function computeImageAspect() {
+        let aspect = imageRef.current.naturalWidth / imageRef.current.naturalHeight;
+        aspect < selectedImage.aspect ? setUploadedImageVirual(true) : setUploadedImageVirual(false);
+
+    }
+
+    console.log(allUploadedImages);
+
     return (
         <div className="info-newalbum-container">
             <div className="info-newalbum-header">
-                <img src={backicon} alt="backicon" onClick={() => setopenImageInfoPage(false)} />
+                <img src={backicon} alt="backicon" onClick={() => setOpenImageInfoPage(false)} />
                 <div className="title">ایجاد آلبوم جدید</div>
                 <div className={`send-info ${finalData.findIndex(image =>
                     !image.saleOption || !image.price
@@ -33,9 +44,9 @@ export default function ImageInformaitions({ setopenImageInfoPage, allUploadedIm
             <div className="info-newalbum-content">
                 <div className="content">
                     <div className="img-container">
-                        <div className={`image-logo-container  ${selectedImage.aspect == IMAGESIZES[2] && "virtualView"}`} style={{ aspectRatio: selectedImage.aspect }}><img src={selectedImage.url} alt="image" />
+                        <div className={`image-logo-container  ${selectedImage.aspect == IMAGESIZES[2] && "virtualView"}`} style={{ aspectRatio: selectedImage.aspect }}><img onLoad={computeImageAspect} ref={imageRef} className={`${uploadedImageVirual ? "uploaded-virtual-img" : "uploaded-horizenal-img"}`} src={selectedImage.url} alt="image" />
+                            < Logo isDrag={false} allLogoPosInfo={allUploadedImages[selectedImage.index].logo} acceptedImageIndex={selectedImage.index} />
                         </div>
-                       
                     </div>
                     <ImagesList allUploadedImages={finalData} setSelectedImage={setSelectedImage} />
                 </div>

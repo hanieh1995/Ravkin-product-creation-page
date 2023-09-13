@@ -1,20 +1,35 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import Draggable from "react-draggable"
 import "./Logo.css"
 import logo from "../../assets/logo/myLogo.jpg"
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import setPosition from "../../utilz/setLogoPosition";
 import { magnifier, shrinker } from "../../utilz/resizeLogo";
-export default function Logo({ DragHandler, sizeIndex, allLogoPosInfo, setAllLogoPosInfo }) {
+export default function Logo({ sizeIndex, allLogoPosInfo, setAllLogoPosInfo, acceptedImageIndex, isDrag }) {
 
     const [oldPos, setOldPos] = useState({ x: 0, y: 0 })
     const [direction, setDirection] = useState(null);
     const logoRef = useRef(null);
-    const [logoStyle, setLogoStyle] = useState({
-        left: allLogoPosInfo[sizeIndex].left,
-        top: allLogoPosInfo[sizeIndex].top,
-        width: allLogoPosInfo[sizeIndex].width,
-    });
+    const [logoStyle, setLogoStyle] = useState(null);
+
+    useEffect(() => {
+        if (isDrag) {
+            setLogoStyle({
+                left: allLogoPosInfo[sizeIndex].left,
+                top: allLogoPosInfo[sizeIndex].top,
+                width: allLogoPosInfo[sizeIndex].width,
+            })
+        } else {
+            setLogoStyle({
+                left: allLogoPosInfo.left,
+                top: allLogoPosInfo.top,
+                width: allLogoPosInfo.width,
+            })
+        }
+        console.log(acceptedImageIndex);
+
+    }, [acceptedImageIndex])
 
     function handleDrag(e) {
         const newDirection = {};
@@ -71,24 +86,18 @@ export default function Logo({ DragHandler, sizeIndex, allLogoPosInfo, setAllLog
         setAllLogoPosInfo(newArray);
     }
 
-    function setLogoPosition(e) {
 
+    function setLogoPosition(e) {
         let final = setPosition(e.target, e.target.parentElement.parentElement.parentElement);
         const newArray = [...allLogoPosInfo];
         newArray[sizeIndex].left = final.x + "%";
         newArray[sizeIndex].top = final.y + "%";
-        // newArray[sizeIndex].width = final.width * 1.33;
         setAllLogoPosInfo(newArray);
     }
-
     return (
         <>
-            <Draggable bounds="parent" handle=".handle">
-
-
+            {isDrag ? <Draggable bounds="parent" handle=".handle">
                 <div draggable={false} className="logo-container" style={logoStyle}>
-
-
                     <div draggable={true} className="size-btn top-left" onDrag={handleDrag}>
                         <i className="fa fa-angle-left" style={{ rotate: "45deg" }} ></i>
                     </div>
@@ -101,16 +110,19 @@ export default function Logo({ DragHandler, sizeIndex, allLogoPosInfo, setAllLog
                     <div draggable={true} className="size-btn bottom-right" onDrag={handleDrag}>
                         <i className="fa fa-angle-left" style={{ rotate: "-135deg" }}></i>
                     </div>
-
                     <div draggable={false} className="logo-image-row-container handle">
-                        <img draggable={false} ref={logoRef} className="logo-image handle" onMouseUp={setLogoPosition} src={logo} alt="logo" />
+                        <img draggable={false} ref={logoRef} className="logo-image handle" onTouchEnd={setLogoPosition} onMouseUp={setLogoPosition} src={logo} alt="logo" />
                     </div>
-
-
-
                 </div>
 
-            </Draggable >
+            </Draggable > :
+                <div draggable={false} className="logo-container" style={logoStyle}>
+                    <div draggable={false} className="logo-image-row-container handle">
+                        <img draggable={false} ref={logoRef} className="logo-image" src={logo} alt="logo" />
+                    </div>
+                </div>
+            }
+
         </>
     )
 }

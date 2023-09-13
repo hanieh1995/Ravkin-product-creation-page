@@ -14,9 +14,14 @@ export default function NewAlbumPopup({ setOpenNewAlbumPopup }) {
     const [allSizeImage, setAllSizeImage] = useState(["", "", "", ""]);
     const [allLogoPosInfo, setAllLogoPosInfo] = useState([{ top: "75%", left: "75%", width: "12%" }, { top: "75%", left: "75%", width: "12%" }, { top: "75%", left: "75%", width: "12%" }, { top: "75%", left: "75%", width: "12%" }])
     const [allUploadedImages, setAllUploadedImages] = useState([]);
-    const [openImageInfoPage, setopenImageInfoPage] = useState(false);
+    const [openImageInfoPage, setOpenImageInfoPage] = useState(false);
+    const [uploadedImageVirual, setUploadedImageVirual] = useState(true);
     const imageRef = useRef(null);
 
+    function computeImageAspect() {
+        let aspect = imageRef.current.naturalWidth / imageRef.current.naturalHeight;
+        aspect < selectedAspect ? setUploadedImageVirual(true) : setUploadedImageVirual(false)
+    }
 
 
     function onImageUpload(event) {
@@ -70,7 +75,7 @@ export default function NewAlbumPopup({ setOpenNewAlbumPopup }) {
         let index = allSizeImage.findIndex(img => img != "")
         if (index != -1) {
             const newArray = [...allUploadedImages];
-            newArray.push({ url: allSizeImage[index], aspect: IMAGESIZES[index], saleOption: "", price: "", performer: "", logo: {} });
+            newArray.push({ url: allSizeImage[index], aspect: IMAGESIZES[index], saleOption: "", price: "", performer: "", logo: allLogoPosInfo[index] });
             setAllUploadedImages(newArray);
             setAllSizeImage(["", "", "", ""]);
             setAllLogoPosInfo([{ top: "75%", left: "75%", width: "12%" }, { top: "75%", left: "75%", width: "12%" }, { top: "75%", left: "75%", width: "12%" }, { top: "75%", left: "75%", width: "12%" }]);
@@ -90,32 +95,30 @@ export default function NewAlbumPopup({ setOpenNewAlbumPopup }) {
         setUploadedImage(null);
     }
 
-    function DragHandler(e) {
-        console.log("dragging")
-    }
-
     return (
 
         <>
-            {openImageInfoPage && <ImageInformations allUploadedImages={allUploadedImages} setopenImageInfoPage={setopenImageInfoPage} />}
+            {openImageInfoPage && <ImageInformations setAllLogoPosInfo={setAllLogoPosInfo} allLogoPosInfo={allLogoPosInfo} allUploadedImages={allUploadedImages} setOpenImageInfoPage={setOpenImageInfoPage} />}
             <div className="popup-main">
                 <div className="newalbum-header">
                     <img src={backicon} alt="backicon" onClick={() => setOpenNewAlbumPopup(false)} />
                     <div className="title">ایجاد آلبوم جدید</div>
-                    <div className={`next-btn ${allUploadedImages.length && "active"}`} onClick={() => { if (allUploadedImages.length) setopenImageInfoPage(true) }}>Next</div>
+                    <div className={`next-btn ${allUploadedImages.length && "active"}`} onClick={() => { if (allUploadedImages.length) setOpenImageInfoPage(true) }}>Next</div>
                 </div>
                 <div className="newalbum-content">
                     <div className="img-container">
 
                         {uploadedImage && <img src={close} alt="close" className="close-btn" onClick={handleDelete} />}
-                        {selectedAspect ? (uploadedImage ? <div className={`image-logo-container  ${selectedAspect == IMAGESIZES[2] && "virtualView"}`} style={{ aspectRatio: selectedAspect }}><img ref={imageRef} draggable={false} src={uploadedImage} alt="" className="uploaded-img" />
-                            {IMAGESIZES.findIndex(size => size == selectedAspect) == 0 && <Logo DragHandler={DragHandler} setAllLogoPosInfo={setAllLogoPosInfo} allLogoPosInfo={allLogoPosInfo} sizeIndex={0} />
+                        {selectedAspect ? (uploadedImage ? <div className={`image-logo-container  ${selectedAspect == IMAGESIZES[2] && "virtualView"}`} style={{ aspectRatio: selectedAspect }}><img onLoad={computeImageAspect} ref={imageRef} draggable={false} src={uploadedImage} alt=""
+                            className={`${uploadedImageVirual ? "uploaded-virtual-img" : "uploaded-horizenal-img"}`}
+                        />
+                            {IMAGESIZES.findIndex(size => size == selectedAspect) == 0 && <Logo isDrag={true} setAllLogoPosInfo={setAllLogoPosInfo} allLogoPosInfo={allLogoPosInfo} sizeIndex={0} />
                             }
-                            {IMAGESIZES.findIndex(size => size == selectedAspect) == 1 && <Logo DragHandler={DragHandler} setAllLogoPosInfo={setAllLogoPosInfo} allLogoPosInfo={allLogoPosInfo} sizeIndex={1} />
+                            {IMAGESIZES.findIndex(size => size == selectedAspect) == 1 && <Logo isDrag={true} setAllLogoPosInfo={setAllLogoPosInfo} allLogoPosInfo={allLogoPosInfo} sizeIndex={1} />
                             }
-                            {IMAGESIZES.findIndex(size => size == selectedAspect) == 2 && <Logo DragHandler={DragHandler} setAllLogoPosInfo={setAllLogoPosInfo} allLogoPosInfo={allLogoPosInfo} sizeIndex={2} />
+                            {IMAGESIZES.findIndex(size => size == selectedAspect) == 2 && <Logo isDrag={true} setAllLogoPosInfo={setAllLogoPosInfo} allLogoPosInfo={allLogoPosInfo} sizeIndex={2} />
                             }
-                            {IMAGESIZES.findIndex(size => size == selectedAspect) == 3 && <Logo DragHandler={DragHandler} setAllLogoPosInfo={setAllLogoPosInfo} allLogoPosInfo={allLogoPosInfo} sizeIndex={3} />
+                            {IMAGESIZES.findIndex(size => size == selectedAspect) == 3 && <Logo isDrag={true} setAllLogoPosInfo={setAllLogoPosInfo} allLogoPosInfo={allLogoPosInfo} sizeIndex={3} />
                             }
                         </div>
                             :

@@ -135,8 +135,12 @@
     cursor: pointer;
 }
 
-.newalbum-content .uploaded-img {
+.newalbum-content .uploaded-virtual-img {
     max-width: 100%;
+}
+
+.newalbum-content .uploaded-horizenal-img {
+    height: 100%;
 }
 
 .newalbum-content .img-size-container .img-sizes.selected {
